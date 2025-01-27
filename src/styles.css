@@ -1,0 +1,109 @@
+.container {
+    margin: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  h1 {
+    text-align: center;
+  }
+  
+  form input {
+    display: block;
+    margin: 10px;
+    padding: 8px;
+    width: 200px;
+  }
+  
+  button {
+    padding: 8px 16px;
+    background-color: #2facb7;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius:5px;
+    margin-left: 5px;
+  }
+  
+  button:hover {
+    background-color: #056f8a;
+  }
+  
+  table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+  }
+  
+  table, th, td {
+    border: 1px solid rgb(62, 60, 60);
+  }
+  
+  th, td {
+    padding: 8px;
+    text-align: left;
+  }
+  .designedbytext{
+    text-align: center;
+  }
+  
+
+  .pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+  }
+  
+  .pagination {
+    display: flex;
+    list-style-type: none;
+    padding: 0;
+    margin: 0 10px;
+  }
+  
+  .page-item {
+    margin: 0 5px;
+  }
+  
+  .page-link {
+    padding: 8px 16px;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    background-color: #ddd;
+    color: #007bff;
+    font-weight: bold;
+  }
+  
+  .page-item.active .page-link {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .page-item .page-link:hover {
+    background-color: #ddd;
+  }
+  
+  .pagination-btn {
+    padding: 8px 16px;
+    border: 1px solid #ddd;
+    background-color: #308044;
+    color: #ddd;
+    cursor: pointer;
+    font-weight: bold;
+    margin: 0 10px;
+  }
+  
+  .pagination-btn:disabled {
+    background-color: #308044;
+    color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .pagination-btn:hover:not(:disabled) {
+    background-color: #308044;
+  }
+  .bg_color{
+    background-image:linear-gradient(to right,rgb(175, 207, 226),rgb(173, 176, 179));
+    height:cover;
+    width:1425px;
+  }
