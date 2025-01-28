@@ -2,17 +2,16 @@ import React, { useState, useEffect } from "react";
 import AddUser from "./components/AddUser";
 import UserList from "./components/UserList";
 import Pagination from "./components/Pagination";
-import "./App.css"; // Import the CSS file
 
 function App() {
   const [users, setUsers] = useState([]);
-  const [isAddUser, setIsAddUser] = useState(false);
-  const [editUser, setEditUser] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [usersPerPage, setUsersPerPage] = useState(10);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [logs, setLogs] = useState([]);
-  const [showLogs, setShowLogs] = useState(false);
+  const [isAddUser, setIsAddUser] = useState(false); // Determines whether the form is visible
+  const [editUser, setEditUser] = useState(null); // Tracks the user being edited
+  const [currentPage, setCurrentPage] = useState(1); // Current page number
+  const [usersPerPage, setUsersPerPage] = useState(10); // Users per page
+  const [searchQuery, setSearchQuery] = useState(""); // Search query
+  const [activityLogs, setActivityLogs] = useState([]); // Store activity logs
+  const [showActivityLogs, setShowActivityLogs] = useState(false); // Show/hide activity logs
 
   useEffect(() => {
     fetchUsers();
@@ -22,12 +21,13 @@ function App() {
     const response = await fetch("https://jsonplaceholder.typicode.com/users");
     const data = await response.json();
 
-    const usersWithFirstLastNames = data.map((user) => {
+    const usersWithFirstLastNames = data.map((user, index) => {
       const [firstName, lastName] = user.name.split(" ");
       return {
-        ...user,
+        id: index + 1, // Ensure IDs are sequential
         firstName,
         lastName,
+        email: user.email,
         department: user.company.name,
       };
     });
@@ -36,12 +36,13 @@ function App() {
   };
 
   const handleAddUser = (newUser) => {
+    newUser.id = users.length + 11; // Assign a sequential ID starting from 11
     setUsers((prevUsers) => [...prevUsers, newUser]);
-    setIsAddUser(false);
-    setLogs((prevLogs) => [
+    setActivityLogs((prevLogs) => [
       ...prevLogs,
-      `User ID: ${newUser.id} added successfully`,
+      `User ID: ${newUser.id} added`,
     ]);
+    setIsAddUser(false); // Close the form after adding
     alert(`User added successfully with ID: ${newUser.id}`);
   };
 
@@ -49,128 +50,168 @@ function App() {
     setUsers((prevUsers) =>
       prevUsers.map((user) => (user.id === updatedUser.id ? updatedUser : user))
     );
-    setEditUser(null);
-    setIsAddUser(false);
-    setLogs((prevLogs) => [
+    setActivityLogs((prevLogs) => [
       ...prevLogs,
-      `User ID: ${updatedUser.id} edited successfully`,
+      `User ID: ${updatedUser.id} edited`,
     ]);
+    setEditUser(null); // Clear the edit state
+    setIsAddUser(false); // Close the form after editing
     alert(`User details updated successfully for ID: ${updatedUser.id}`);
   };
 
   const handleDeleteUser = (userId) => {
     setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
-    setLogs((prevLogs) => [...prevLogs, `User ID: ${userId} deleted successfully`]);
+    setActivityLogs((prevLogs) => [
+      ...prevLogs,
+      `User ID: ${userId} deleted`,
+    ]);
     alert(`User with ID: ${userId} deleted successfully`);
   };
 
+  // Filter users based on the search query
   const filteredUsers = users.filter(
     (user) =>
       user.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
       user.lastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      user.email.toLowerCase().includes(searchQuery.toLowerCase())
+      user.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      user.department.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
   const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
 
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
+  const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
 
-  const handleUsersPerPageChange = (e) => {
-    setUsersPerPage(Number(e.target.value));
-    setCurrentPage(1);
-  };
+  const handleUsersPerPageChange = (e) =>
+    setUsersPerPage(parseInt(e.target.value, 10));
 
   return (
     <div className="app-container">
-      {/* Header Section */}
       <div className="header">
-        <h1>User Management Dashboard</h1>
+        <h1 style={{ textAlign: "center", flex: 1 }}>User Management Dashboard</h1>
         <button
-          onClick={() => setShowLogs(!showLogs)}
-          className="account-activity-btn"
+          className="activity-button"
+          onClick={() => setShowActivityLogs((prev) => !prev)}
         >
-          {showLogs ? "Hide Account Activity" : "Show Account Activity"}
+          {showActivityLogs ? "Hide Account Activity" : "Account Activity"}
         </button>
       </div>
 
-      {/* Centered Search and Add User Section */}
-      <div className="centered-section">
-        {/* Add User Button */}
-        <button
-          onClick={() => setIsAddUser(!isAddUser)}
-          className="add-user-btn"
-        >
-          {isAddUser ? "Cancel Add User" : "Add User"}
-        </button>
-
-        {/* Search Input */}
-        <input
-          type="text"
-          placeholder="Search by name or email"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="search-input"
-        />
-      </div>
-
-      {/* Dropdown for Users Per Page */}
-      <div className="pagination-control">
-        <label htmlFor="usersPerPage">Users Per Page:</label>
-        <select
-          id="usersPerPage"
-          value={usersPerPage}
-          onChange={handleUsersPerPageChange}
-        >
-          <option value={5}>5</option>
-          <option value={10}>10</option>
-          <option value={15}>15</option>
-          <option value={20}>20</option>
-        </select>
-      </div>
-
-      {isAddUser ? (
-        <AddUser
-          onAddOrEdit={editUser ? handleEditUser : handleAddUser}
-          editUser={editUser}
-        />
-      ) : (
-        <>
-          <UserList
-            users={currentUsers}
-            onEdit={(user) => {
-              setEditUser(user);
-              setIsAddUser(true);
-            }}
-            onDelete={handleDeleteUser}
-          />
-          {filteredUsers.length === 0 && (
-            <p className="no-users-message">No users found</p>
-          )}
-        </>
-      )}
-
-      <Pagination
-        totalUsers={filteredUsers.length}
-        usersPerPage={usersPerPage}
-        currentPage={currentPage}
-        onPageChange={handlePageChange}
-      />
-
-      {showLogs && (
-        <div className="logs-container">
-          <h3>Account Activity Logs:</h3>
+      {showActivityLogs ? (
+        <div className="activity-log">
+          <h2>Account Activity Logs</h2>
           <ul>
-            {logs.length > 0 ? (
-              logs.map((log, index) => <li key={index}>{log}</li>)
+            {activityLogs.length > 0 ? (
+              activityLogs.map((log, index) => <li key={index}>{log}</li>)
             ) : (
-              <p>No actions logged yet</p>
+              <p>No activity logged yet.</p>
             )}
           </ul>
         </div>
+      ) : (
+        <>
+          <div className="search-container" style={{ textAlign: "center", margin: "20px 0" }}>
+            {!isAddUser && (
+              <>
+                <button
+                  className="add-user-button"
+                  onClick={() => {
+                    setEditUser(null); // Ensure no user is being edited
+                    setIsAddUser(true);
+                  }}
+                  style={{ marginRight: "10px", padding: "10px 20px" }}
+                >
+                  Add User
+                </button>
+                <input
+                  type="text"
+                  placeholder="Search by name, email, or department..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  style={{
+                    padding: "10px",
+                    width: "300px",
+                    borderRadius: "5px",
+                    border: "1px solid #ccc",
+                  }}
+                />
+              </>
+            )}
+          </div>
+
+          {isAddUser && (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "column",
+                minHeight: "50vh",
+                marginTop: "20px",
+              }}
+            >
+              <AddUser
+                onAddOrEdit={editUser ? handleEditUser : handleAddUser}
+                editUser={editUser}
+              />
+              <button
+                className="cancel-add-user-button"
+                onClick={() => setIsAddUser(false)}
+                style={{
+                  marginTop: "20px",
+                  padding: "10px 20px",
+                  backgroundColor: "#f44336",
+                  color: "white",
+                  border: "none",
+                  borderRadius: "5px",
+                  cursor: "pointer",
+                }}
+              >
+                Back
+              </button>
+            </div>
+          )}
+
+          {!isAddUser && (
+            <>
+              <UserList
+                users={currentUsers}
+                onEdit={(user) => {
+                  setEditUser(user);
+                  setIsAddUser(true);
+                }}
+                onDelete={handleDeleteUser}
+              />
+              <Pagination
+                totalUsers={filteredUsers.length}
+                usersPerPage={usersPerPage}
+                currentPage={currentPage}
+                onPageChange={handlePageChange}
+              />
+              <div className="pagination-settings" style={{ textAlign: "center", marginTop: "20px" }}>
+                <label htmlFor="usersPerPage" style={{ marginRight: "10px" }}>
+                  Users per page:
+                </label>
+                <select
+                  id="usersPerPage"
+                  value={usersPerPage}
+                  onChange={handleUsersPerPageChange}
+                  style={{
+                    padding: "5px",
+                    borderRadius: "5px",
+                    border: "1px solid #ccc",
+                  }}
+                >
+                  <option value={5}>5</option>
+                  <option value={10}>10</option>
+                  <option value={15}>15</option>
+                  <option value={20}>20</option>
+                </select>
+              </div>
+            </>
+          )}
+        </>
       )}
     </div>
   );

@@ -16,7 +16,7 @@
   
   button {
     padding: 8px 16px;
-    background-color: #2facb7;
+    background-color: #007bff;
     color: white;
     border: none;
     cursor: pointer;
@@ -25,7 +25,7 @@
   }
   
   button:hover {
-    background-color: #056f8a;
+    background-color: #1c5077;
   }
   
   table {
@@ -103,7 +103,7 @@
     background-color: #308044;
   }
   .bg_color{
-    background-image:linear-gradient(to right,rgb(175, 207, 226),rgb(173, 176, 179));
-    height:cover;
+    background-image:linear-gradient(to right,rgb(158, 168, 173),rgb(255, 255, 255));
+    height:850px;
     width:1425px;
   }
