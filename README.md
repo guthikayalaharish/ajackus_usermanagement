@@ -4,8 +4,10 @@
 The User Management Dashboard is a web application that allows users to manage user information effectively. Users can view, add, edit, and delete user details through a user-friendly interface. The application fetches data from a mock API (JSONPlaceholder) and provides essential functionalities for managing user records.
 
 ## Technologies Used
-- **React**: A JavaScript library for building user interfaces.
+-**HTML**:For basic structure of the page.
 - **CSS**: For styling the application and ensuring a responsive design.
+- **javascript**: To create and updathe the content dynamically.
+- **React**: A JavaScript library for building user interfaces.
 - **JSONPlaceholder**: A free online REST API for testing and prototyping.
 - **Git**: For version control and collaboration.
 - **GitHub**: For hosting the project repository.
