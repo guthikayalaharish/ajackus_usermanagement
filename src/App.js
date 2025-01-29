@@ -5,27 +5,26 @@ import Pagination from "./components/Pagination";
 
 function App() {
   const [users, setUsers] = useState([]);
-  const [isAddUser, setIsAddUser] = useState(false); // Determines whether the form is visible
-  const [editUser, setEditUser] = useState(null); // Tracks the user being edited
-  const [currentPage, setCurrentPage] = useState(1); // Current page number
-  const [usersPerPage, setUsersPerPage] = useState(10); // Users per page
-  const [searchQuery, setSearchQuery] = useState(""); // Search query
-  const [activityLogs, setActivityLogs] = useState([]); // Store activity logs
-  const [showActivityLogs, setShowActivityLogs] = useState(false); // Show/hide activity logs
+  const [isAddUser, setIsAddUser] = useState(false);
+  const [editUser, setEditUser] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [usersPerPage, setUsersPerPage] = useState(10);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [activityLogs, setActivityLogs] = useState([]);
+  const [showActivityLogs, setShowActivityLogs] = useState(false);
 
   useEffect(() => {
     fetchUsers();
   }, []);
 
   const fetchUsers = async () => {
- 
     const response = await fetch("https://jsonplaceholder.typicode.com/users");
     const data = await response.json();
 
     const usersWithFirstLastNames = data.map((user, index) => {
       const [firstName, lastName] = user.name.split(" ");
       return {
-        id: index + 1, // Ensure IDs are sequential
+        id: index + 1,
         firstName,
         lastName,
         email: user.email,
@@ -35,16 +34,14 @@ function App() {
 
     setUsers(usersWithFirstLastNames);
   };
-  const date=new Date();
+
+  const date = new Date();
 
   const handleAddUser = (newUser) => {
-    newUser.id = users.length + 11; // Assign a sequential ID starting from 11
+    newUser.id = users.length + 11;
     setUsers((prevUsers) => [...prevUsers, newUser]);
-    setActivityLogs((prevLogs) => [
-      ...prevLogs,
-      `User ID: ${newUser.id} added on ${date}`,
-    ]);
-    setIsAddUser(false); // Close the form after adding
+    setActivityLogs((prevLogs) => [...prevLogs, `User ID: ${newUser.id} added on ${date}`]);
+    setIsAddUser(false);
     alert(`User added successfully with ID: ${newUser.id}`);
   };
 
@@ -52,25 +49,18 @@ function App() {
     setUsers((prevUsers) =>
       prevUsers.map((user) => (user.id === updatedUser.id ? updatedUser : user))
     );
-    setActivityLogs((prevLogs) => [
-      ...prevLogs,
-      `User ID: ${updatedUser.id} edited on ${date}`,
-    ]);
-    setEditUser(null); // Clear the edit state
-    setIsAddUser(false); // Close the form after editing
+    setActivityLogs((prevLogs) => [...prevLogs, `User ID: ${updatedUser.id} edited on ${date}`]);
+    setEditUser(null);
+    setIsAddUser(false);
     alert(`User details updated successfully for ID: ${updatedUser.id}`);
   };
 
   const handleDeleteUser = (userId) => {
     setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
-    setActivityLogs((prevLogs) => [
-      ...prevLogs,
-      `User ID: ${userId} deleted on ${date}`,
-    ]);
+    setActivityLogs((prevLogs) => [...prevLogs, `User ID: ${userId} deleted on ${date}`]);
     alert(`User with ID: ${userId} deleted successfully`);
   };
 
-  // Filter users based on the search query
   const filteredUsers = users.filter(
     (user) =>
       user.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -78,7 +68,7 @@ function App() {
       user.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
       user.department.toLowerCase().includes(searchQuery.toLowerCase())
   );
-    
+
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
   const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
@@ -90,8 +80,17 @@ function App() {
 
   return (
     <div className="app-container">
+      {/* Header with Image on the Left */}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "20px" }}>
+        <img
+          src="https://res.cloudinary.com/dxbcja6jo/image/upload/v1738125558/Mobile-Design-Inspiration-unscreen_oukuep.gif"
+          alt="Animated Icon"
+          style={{ width: "80px", height: "80px", marginRight: "15px" }}
+        />
+        <h1>User Management Dashboard</h1>
+      </div>
+
       <div className="header">
-        <h1 style={{ textAlign: "center", flex: 1 }}>User Management Dashboard</h1>
         <button
           className="activity-button"
           onClick={() => setShowActivityLogs((prev) => !prev)}
@@ -119,7 +118,7 @@ function App() {
                 <button
                   className="add-user-button"
                   onClick={() => {
-                    setEditUser(null); // Ensure no user is being edited
+                    setEditUser(null);
                     setIsAddUser(true);
                   }}
                   style={{ marginRight: "10px", padding: "10px 20px" }}
