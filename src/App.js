@@ -18,6 +18,7 @@ function App() {
   }, []);
 
   const fetchUsers = async () => {
+ 
     const response = await fetch("https://jsonplaceholder.typicode.com/users");
     const data = await response.json();
 
@@ -34,13 +35,14 @@ function App() {
 
     setUsers(usersWithFirstLastNames);
   };
+  const date=new Date();
 
   const handleAddUser = (newUser) => {
     newUser.id = users.length + 11; // Assign a sequential ID starting from 11
     setUsers((prevUsers) => [...prevUsers, newUser]);
     setActivityLogs((prevLogs) => [
       ...prevLogs,
-      `User ID: ${newUser.id} added`,
+      `User ID: ${newUser.id} added on ${date}`,
     ]);
     setIsAddUser(false); // Close the form after adding
     alert(`User added successfully with ID: ${newUser.id}`);
@@ -52,7 +54,7 @@ function App() {
     );
     setActivityLogs((prevLogs) => [
       ...prevLogs,
-      `User ID: ${updatedUser.id} edited`,
+      `User ID: ${updatedUser.id} edited on ${date}`,
     ]);
     setEditUser(null); // Clear the edit state
     setIsAddUser(false); // Close the form after editing
@@ -63,7 +65,7 @@ function App() {
     setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
     setActivityLogs((prevLogs) => [
       ...prevLogs,
-      `User ID: ${userId} deleted`,
+      `User ID: ${userId} deleted on ${date}`,
     ]);
     alert(`User with ID: ${userId} deleted successfully`);
   };
@@ -76,7 +78,7 @@ function App() {
       user.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
       user.department.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
+    
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
   const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
