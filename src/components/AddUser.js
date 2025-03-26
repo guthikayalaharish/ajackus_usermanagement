@@ -76,7 +76,7 @@ const AddUser = ({ onAddOrEdit, editUser }) => {
         placeholder="Priority"
         required
       />
-      <button type="submit">{editUser ? "Save Changes" : "Add User"}</button>
+      <button type="submit">{editUser ? "Save Changes" : "Add Task"}</button>
     </form>
   );
 };
