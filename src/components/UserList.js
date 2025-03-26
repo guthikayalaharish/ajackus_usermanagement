@@ -10,11 +10,11 @@ const UserList = ({ users, onEdit, onDelete }) => {
         <table>
           <thead>
             <tr>
-              <th>ID</th>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Email</th>
-              <th>Department</th>
+              <th>Task ID</th>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Category</th>
+              <th>Priority</th>
               <th>Actions</th>
             </tr>
           </thead>
