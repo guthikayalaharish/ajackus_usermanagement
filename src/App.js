@@ -38,7 +38,7 @@ function App() {
   const date = new Date();
 
   const handleAddUser = (newUser) => {
-    newUser.id = users.length + 11;
+    newUser.id = users.length ;
     setUsers((prevUsers) => [...prevUsers, newUser]);
     setActivityLogs((prevLogs) => [...prevLogs, `User ID: ${newUser.id} added on ${date}`]);
     setIsAddUser(false);
@@ -101,7 +101,7 @@ function App() {
 
       {showActivityLogs ? (
         <div className="activity-log">
-          <h2>Account Activity Logs</h2>
+          <h2>Tasks Activity Logs</h2>
           <ul>
             {activityLogs.length > 0 ? (
               activityLogs.map((log, index) => <li key={index}>{log}</li>)
