@@ -42,7 +42,7 @@ function App() {
     setUsers((prevUsers) => [...prevUsers, newUser]);
     setActivityLogs((prevLogs) => [...prevLogs, `User ID: ${newUser.id} added on ${date}`]);
     setIsAddUser(false);
-    alert(`User added successfully with ID: ${newUser.id}`);
+    alert(`task added successfully with ID: ${newUser.id}`);
   };
 
   const handleEditUser = (updatedUser) => {
@@ -52,13 +52,13 @@ function App() {
     setActivityLogs((prevLogs) => [...prevLogs, `User ID: ${updatedUser.id} edited on ${date}`]);
     setEditUser(null);
     setIsAddUser(false);
-    alert(`User details updated successfully for ID: ${updatedUser.id}`);
+    alert(`Task details updated successfully for ID: ${updatedUser.id}`);
   };
 
   const handleDeleteUser = (userId) => {
     setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
     setActivityLogs((prevLogs) => [...prevLogs, `User ID: ${userId} deleted on ${date}`]);
-    alert(`User with ID: ${userId} deleted successfully`);
+    alert(`Task with ID: ${userId} deleted successfully`);
   };
 
   const filteredUsers = users.filter(
@@ -87,7 +87,7 @@ function App() {
           alt="Animated Icon"
           style={{ width: "80px", height: "80px", marginRight: "15px" }}
         />
-        <h1>User Management Dashboard</h1>
+        <h1>Task Management Dashboard</h1>
       </div>
 
       <div className="header">
@@ -123,7 +123,7 @@ function App() {
                   }}
                   style={{ marginRight: "10px", padding: "10px 20px" }}
                 >
-                  Add User
+                  Add Task
                 </button>
                 <input
                   type="text"
