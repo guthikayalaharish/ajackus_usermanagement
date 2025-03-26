@@ -49,7 +49,7 @@ const AddUser = ({ onAddOrEdit, editUser }) => {
         name="firstName"
         value={user.firstName}
         onChange={handleChange}
-        placeholder="First Name"
+        placeholder="Title"
         required
       />
       <input
@@ -57,7 +57,7 @@ const AddUser = ({ onAddOrEdit, editUser }) => {
         name="lastName"
         value={user.lastName}
         onChange={handleChange}
-        placeholder="Last Name"
+        placeholder="Description"
         required
       />
       <input
@@ -65,7 +65,7 @@ const AddUser = ({ onAddOrEdit, editUser }) => {
         name="email"
         value={user.email}
         onChange={handleChange}
-        placeholder="Email"
+        placeholder="Category"
         required
       />
       <input
@@ -73,7 +73,7 @@ const AddUser = ({ onAddOrEdit, editUser }) => {
         name="department"
         value={user.department}
         onChange={handleChange}
-        placeholder="Department"
+        placeholder="Priority"
         required
       />
       <button type="submit">{editUser ? "Save Changes" : "Add User"}</button>
