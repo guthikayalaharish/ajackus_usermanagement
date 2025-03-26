@@ -43,7 +43,7 @@ const AddUser = ({ onAddOrEdit, editUser }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2>{editUser ? "Edit User" : "Add User"}</h2>
+      <h2>{editUser ? "Edit Task" : "Add Task"}</h2>
       <input
         type="text"
         name="firstName"
