@@ -18,7 +18,7 @@ function App() {
   }, []);
 
   const fetchUsers = async () => {
-    const response = await fetch("https://jsonplaceholder.typicode.com/u");
+    const response = await fetch("");
     const data = await response.json();
 
     const usersWithFirstLastNames = data.map((user, index) => {
