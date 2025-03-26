@@ -95,7 +95,7 @@ function App() {
           className="activity-button"
           onClick={() => setShowActivityLogs((prev) => !prev)}
         >
-          {showActivityLogs ? "Hide Account Activity" : "Account Activity"}
+          {showActivityLogs ? "Hide Task Activity" : "Task Activity"}
         </button>
       </div>
 
@@ -106,7 +106,7 @@ function App() {
             {activityLogs.length > 0 ? (
               activityLogs.map((log, index) => <li key={index}>{log}</li>)
             ) : (
-              <p>No activity logged yet.</p>
+              <p>No Tasks logged yet.</p>
             )}
           </ul>
         </div>
