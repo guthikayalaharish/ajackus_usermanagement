@@ -66,7 +66,7 @@ const AddUser = ({ onAddOrEdit, editUser }) => {
         value={user.email}
         onChange={handleChange}
         placeholder="Category"
-        required
+        
       />
       <input
         type="text"
