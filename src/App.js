@@ -192,7 +192,7 @@ function App() {
               />
               <div className="pagination-settings" style={{ textAlign: "center", marginTop: "20px" }}>
                 <label htmlFor="usersPerPage" style={{ marginRight: "10px" }}>
-                  Users per page:
+                  Tasks per page:
                 </label>
                 <select
                   id="usersPerPage"
